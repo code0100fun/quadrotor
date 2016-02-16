@@ -27,5 +27,8 @@
     "git-repo-version": "^0.1.2",
     "handlebars": "^3.0.2",
     "qunit": "^0.7.2"
+  },
+  "dependencies": {
+    "mathjs": "^2.7.0"
   }
 }

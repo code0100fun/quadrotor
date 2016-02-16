@@ -77,5 +77,12 @@ module.exports = function() {
     finalTrees.push(loader);
   }
 
+  var math = find(packages, {
+    srcDir: '/mathjs/dist',
+    files: [ 'math.min.js' ],
+    destDir: '/vendor'
+  });
+  finalTrees.push(math);
+
   return merge(finalTrees);
 };
