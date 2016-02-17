@@ -1,4 +1,9 @@
-import { eulerToZXYRotation, zxyRotationToEuler, rotToQuat } from 'utils/rotation';
+import {
+  eulerToZXYRotation,
+  zxyRotationToEuler,
+  rotToQuat,
+  quatToRot
+} from 'utils/rotation';
 
 QUnit.module('Util - rotation');
 
@@ -59,4 +64,21 @@ test("rotToQuat(/* arbitarty R */)", function(assert) {
   assert.close(quat.get([1,0]),  0.613249931306169, 1e-14);
   assert.close(quat.get([2,0]),  0.288805613755163, 1e-14);
   assert.close(quat.get([3,0]), -0.398098636301516, 1e-14);
+});
+
+test("quatToRot(math.matrix([1,0,0,0]))", function(assert) {
+  let quat = math.matrix([[1],[0],[0],[0]]);
+  let R = quatToRot(quat);
+  let expected = math.eye(3);
+  assert.matrixEqual(R, expected);
+});
+
+test("quatToRot(/* arbitarty quaternion */)", function(assert) {
+  let quat = math.matrix([[1],[2],[3],[4]]);
+  let R = quatToRot(quat);
+  let expected = math.matrix([[-0.666666666666666,  0.133333333333333,  0.733333333333333],
+                              [ 0.666666666666666, -0.333333333333333,  0.666666666666667],
+                              [ 0.333333333333333,  0.933333333333333,  0.133333333333333
+                              ]]);
+  assert.matrixEqual(R, expected);
 });
