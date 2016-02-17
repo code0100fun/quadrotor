@@ -1,4 +1,4 @@
-import { eulerToZXYRotation, zxyRotationToEuler } from 'utils/rotation';
+import { eulerToZXYRotation, zxyRotationToEuler, rotToQuat } from 'utils/rotation';
 
 QUnit.module('Util - rotation');
 
@@ -36,4 +36,27 @@ test("zxyRotationToEuler(/* arbitarty R */)", function(assert) {
   assert.close(phi, -1.415926535897933, 1e-14);
   assert.close(theta, 1.017702849742895, 1e-14);
   assert.close(psi, 2.035405699485789, 1e-14);
+});
+
+test("rotToQuat(eye(3))", function(assert) {
+  let R = math.eye(3);
+  let quat = rotToQuat(R);
+  assert.equal(quat.get([0,0]), 1);
+  assert.equal(quat.get([1,0]), 0);
+  assert.equal(quat.get([2,0]), 0);
+  assert.equal(quat.get([3,0]), 0);
+});
+
+test("rotToQuat(/* arbitarty R */)", function(assert) {
+  // [phi, theta, psi] = 30,45,90
+  let R = math.matrix([
+                        [ 0.516217586476753,  0.846340372739808, -0.131253102373843],
+                        [-0.137900281555049, -0.069116004944297, -0.988031624092862],
+                        [-0.845282743086096,  0.528139140124250,  0.081031678432964
+                      ]]);
+  let quat = rotToQuat(R);
+  assert.close(quat.get([0,0]),  0.618088436221998, 1e-14);
+  assert.close(quat.get([1,0]),  0.613249931306169, 1e-14);
+  assert.close(quat.get([2,0]),  0.288805613755163, 1e-14);
+  assert.close(quat.get([3,0]), -0.398098636301516, 1e-14);
 });
